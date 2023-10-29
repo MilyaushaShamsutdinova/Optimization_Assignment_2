@@ -20,12 +20,12 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
     Vector x(func_coefficients.size(), accuracy);
 
     Matrix A_tilda;
-    Vector c_tilda, c_p, x_tilda, x_iter, x_unit(func_coefficients.size(), 1.0000000000f);
+    Vector c_tilda, c_p, x_tilda, x_iter, x_unit(func_coefficients.size(), 1.000000f);
     Matrix P;
     Matrix I(D.rows(), D.columns());
 
     for (int i = 0; i < I.rows(); ++i) {
-        I(i, i) = 1.0000000000f;
+        I(i, i) = 1.000000f;
     }
 
     int iter = 0;
@@ -34,13 +34,13 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
         if (iter != 1) {
             for (int i = 0; i < D.rows(); ++i) {
                 for (int j = 0; j < D.columns(); ++j) {
-                    D(i, j) = 0.0000000000f;
+                    D(i, j) = 0.000000f;
                 }
                 D(i, i) = x[i];
             }
         }
 
-        A_tilda = A * D;
+        A_tilda = main_matrix * D;
         c_tilda = D * func_coefficients;
 
         Matrix A_tilda_transpose = A_tilda.transpose();
@@ -60,7 +60,7 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
             v = abs(m);
         }
 
-        if (m > 0.0000f) {
+        if (m > 0.000000f) {
             cout << "In iteration " << iter << " no negative values V\n";
             break;
         }
@@ -84,7 +84,17 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
         }
     }
 
-    cout << "The answer is:" << x << endl;
+    cout << "The answer is:\n";
+    for (int i = 0; i < x.size(); ++i) {
+        cout << "x" << i << " = " << x[i] << " ";
+    }
+    float profit = 0.000000f;
+
+    for (int i = 0; i < A.columns(); ++i) {
+        profit += c[i] * x[i];
+    }
+
+    cout << "\n\nProfit of these x values: " << profit << endl;
 
 }
 
@@ -99,16 +109,16 @@ void InteriorPoint::initialize_algorithm_data(const Matrix &A, const Vector &B, 
         for (int j = 0; j < A.columns(); ++j) {
             main_matrix(i, j) = A(i, j);
         }
-        main_matrix(i, A.columns() + i) = 1.0000000000f;
+        main_matrix(i, A.columns() + i) = 1.000000f;
     }
 
-    func_coefficients = Vector(main_matrix.columns(), 0e-10);
+    func_coefficients = Vector(main_matrix.columns(), 0.000000);
     for (int i = 0; i < C.size(); ++i) {
         func_coefficients[i] = C[i];
     }
 
     for (int i = 0; i < A.rows(); ++i) {
-        D(i, i) = 1.0000000000f;
+        D(i, i) = 1.000000f;
     }
 
     for (int i  = A.rows(); i < D.rows(); ++i) {
