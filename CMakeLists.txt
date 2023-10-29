@@ -8,5 +8,7 @@ include_directories(headers)
 add_executable(Optimization_Assignment_2
         headers/Matrix.hpp
         headers/Vector.hpp
+        headers/InteriorPoint.hpp
         source/Matrix.cpp
-        source/Vector.cpp)
+        source/Vector.cpp
+        source/InteriorPoint.cpp)
