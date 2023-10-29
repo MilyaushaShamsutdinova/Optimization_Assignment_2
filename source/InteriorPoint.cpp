@@ -54,23 +54,23 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
 
         c_p = P * c_tilda;
 
-        float v;
-        bool f = true;
+        float v, m;
         for (int i = 0; i < c_p.size(); ++i) {
-            if (c_p[i] < 0.00000000f) {
-                if (f) {
-                    f = !f;
-                    v = c_p[i];
-                    continue;
-                }
-                v = min(v, c_p[i]);
-            }
+            m = min(c_p[0], c_p[i]);
+            v = abs(m);
+        }
+
+        if (m > 0.0000f) {
+            cout << "In iteration " << iter << " no negative values V\n";
+            break;
         }
 
         c_p *= alpha / v;
         x_tilda = x_unit + c_p;
 
         x = D * x_tilda;
+
+        cout << "Iteration: " << iter << " x= " << x << endl;
 
         bool flag = false;
         for (int i = 0; i < x.size(); ++i) {

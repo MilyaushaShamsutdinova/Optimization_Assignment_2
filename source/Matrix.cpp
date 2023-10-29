@@ -233,4 +233,12 @@ Matrix Matrix::inverse() {
             }
         }
     }
+
+    for (int i = columns_; i < columns_*2; ++i) {
+        for (int j = 0; j < rows_; ++j) {
+            inverse_matrix(j, i - columns_) = tmp_matrix(j,i);
+        }
+    }
+
+    return inverse_matrix;
 }
