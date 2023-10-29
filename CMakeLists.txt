@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.23)
+project(Optimization_Assignment_2)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(headers)
+
+add_executable(Optimization_Assignment_2
+        headers/Matrix.hpp
+        headers/Vector.hpp
+        source/Matrix.cpp
+        source/Vector.cpp)
