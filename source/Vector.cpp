@@ -3,7 +3,6 @@
 //
 
 #include "../headers/Vector.hpp"
-#include <cmath>
 
 Vector::Vector() {
     vector_ = vector<float>();
@@ -50,16 +49,17 @@ float Vector::operator[](int index) const {
     return vector_[index];
 }
 
-Vector Vector::operator-(Vector &vector) const {
+Vector Vector::operator-(Vector &other) const {
     Vector tmp(*this);
-    tmp -= vector;
+    tmp -= other;
     return tmp;
 }
 
-Vector &Vector::operator-=(Vector &vector) {
-    int size = min((int) vector.size(), (int) vector_.size());
-    for (int i = 0; i < size; i++) {
-        vector_[i] -= vector[i];
+Vector &Vector::operator-=(Vector &other) {
+    if (other.size() == vector_.size()) {
+        for (int i = 0; i < other.size(); i++) {
+            vector_[i] -= other[i];
+        }
     }
     return *this;
 }
@@ -109,7 +109,25 @@ Vector &Vector::operator=(Vector other) {
     return *this;
 }
 
-
 void Vector::swap(Vector &first, Vector &second) {
     std::swap(first.vector_, second.vector_);
+}
+
+Vector Vector::operator+(Vector& other) const {
+    Vector tmp(*this);
+    tmp += other;
+    return tmp;
+}
+
+Vector& Vector::operator+=(Vector& other) {
+    if (other.size() == vector_.size()) {
+        Vector tmp(other);
+        for (int i = 0; i < other.size(); ++i) {
+            tmp[i] += other[i];
+        }
+        swap(*this, tmp);
+    } else {
+        cout << "Vectors must be of the same size." << endl;
+    }
+    return *this;
 }

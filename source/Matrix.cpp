@@ -17,7 +17,7 @@ Matrix::Matrix(int rows, int columns) {
     rows_ = rows;
     columns_ = columns;
 
-    data_ = vector<vector<float>>(rows, vector<float>(columns, 0.0f));
+    data_ = vector<vector<float>>(rows, vector<float>(columns, 0.00000000000f));
 }
 
 
@@ -25,7 +25,7 @@ Matrix::Matrix(const Matrix &other) {
     rows_ = other.rows_;
     columns_ = other.columns_;
 
-    data_ = vector<vector<float>>(rows_, vector<float>(columns_, 0.0f));
+    data_ = vector<vector<float>>(rows_, vector<float>(columns_, 0.00000000000f));
 
     for (int i = 0; i < rows_; i++) {
         for (int j = 0; j < columns_; j++) {
@@ -80,7 +80,7 @@ void Matrix::swap(Matrix &first, Matrix &second) {
 }
 
 
-Vector Matrix::operator*(Vector vector) const {
+Vector Matrix::operator*(Vector vector) {
     if (columns_ != vector.size()) {
         throw invalid_argument("Matrix and vector dimensions are incompatible for multiplication.");
     }
@@ -96,6 +96,47 @@ Vector Matrix::operator*(Vector vector) const {
     }
 
     return result;
+}
+
+
+Matrix& Matrix::operator*=(const Matrix& item) {
+    if (columns_ == item.rows_) {
+        Matrix tmp_matrix_(rows_, item.columns_);
+        for (int i = 0; i < rows_; i++) {
+            for (int k = 0; k < item.rows_; k++) {
+                for (int j = 0; j < item.columns_; j++) {
+                    tmp_matrix_(i, j) += (data_[i][k] * item(k, j));
+                }
+            }
+        }
+        swap(tmp_matrix_, *this);
+    }
+    return *this;
+}
+
+Matrix Matrix::operator-(const Matrix& item) const {
+    Matrix tmp_matrix_(*this);
+    tmp_matrix_ -= item;
+    return tmp_matrix_;
+}
+
+Matrix& Matrix::operator-=(const Matrix& item) {
+    if (rows_ == item.rows_ && columns_ == item.columns_) {
+        Matrix tmp_matrix_(rows_, item.columns_);
+        for (int i = 0; i < rows_; i++){
+            for (int j = 0; j < rows_; ++j) {
+                tmp_matrix_(i, j) = data_[i][j] - item(i, j);
+            }
+        }
+        swap(tmp_matrix_, *this);
+    }
+    return *this;
+}
+
+Matrix Matrix::operator*(const Matrix& item) const {
+    Matrix tmp_matrix_(*this);
+    tmp_matrix_ *= item;
+    return tmp_matrix_;
 }
 
 
@@ -149,7 +190,7 @@ void Matrix::setCol(int index, Vector &vector) {
 }
 
 
-Matrix Matrix::transpose() const {
+Matrix Matrix::transpose() {
     Matrix transposed(columns_, rows_);
 
     for (int i = 0; i < rows_; ++i) {
@@ -159,4 +200,37 @@ Matrix Matrix::transpose() const {
     }
 
     return transposed;
+}
+
+Matrix Matrix::inverse() {
+    Matrix inverse_matrix(rows_, columns_);
+    Matrix tmp_matrix(rows_, columns_ * 2);
+
+    for (int i = 0; i < rows_; i++) {
+        for (int j = 0; j < columns_; j++) {
+            tmp_matrix(i, j) = data_[i][j];
+        }
+
+    }
+    for (int i = 0; i < rows_; ++i) {
+        for (int j = columns_; j < columns_*2; ++j) {
+            tmp_matrix(i, j) = 0;
+        }
+        tmp_matrix(i, columns_ + i) = 1;
+    }
+
+    for (int i = 0; i < rows_; i++) {
+        float tmp = tmp_matrix(i, i);
+        for (int j = 0; j < columns_*2; j++) {
+            tmp_matrix(i, j) /= tmp;
+        }
+        for (int j = 0; j < rows_; j++) {
+            if (i != j) {
+                tmp = tmp_matrix(j, i);
+                for (int k = 0; k < columns_*2; k++) {
+                    tmp_matrix(j, k) -= tmp_matrix(i, k) * tmp;
+                }
+            }
+        }
+    }
 }

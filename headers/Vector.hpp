@@ -2,8 +2,8 @@
 // Created by ilia on 17.09.23.
 //
 
-#ifndef OPTIMIZATION_COURSE_ASSIGNMENT_1_VECTOR_HPP
-#define OPTIMIZATION_COURSE_ASSIGNMENT_1_VECTOR_HPP
+#ifndef OPTIMIZATION_ASSIGNMENT_2_VECTOR_HPP
+#define OPTIMIZATION_ASSIGNMENT_2_VECTOR_HPP
 
 
 #include <iostream>
@@ -17,7 +17,7 @@ class Vector {
 public:
     Vector();
 
-    explicit Vector(int vector_size, float initial_value = 0.0f);
+    explicit Vector(int vector_size, float initial_value = 0.0000000000f);
 
     Vector(const Vector &other);
 
@@ -29,9 +29,9 @@ public:
 
     float operator[](int index) const;
 
-    Vector operator-(Vector &vector) const;
+    Vector operator-(Vector &other) const;
 
-    Vector &operator-=(Vector &vector);
+    Vector &operator-=(Vector &other);
 
     Vector operator*(float scalar) const;
 
@@ -42,6 +42,10 @@ public:
     Vector &operator/=(float scalar);
 
     Vector &operator=(Vector other);
+
+    Vector operator+(Vector &other) const;
+
+    Vector &operator+=(Vector &other);
 
     //overloaded ostream operator
     friend std::ostream &operator<<(std::ostream &os, const Vector &item) {
@@ -74,4 +78,4 @@ private:
 };
 
 
-#endif //OPTIMIZATION_COURSE_ASSIGNMENT_1_VECTOR_HPP
+#endif //OPTIMIZATION_ASSIGNMENT_2_VECTOR_HPP

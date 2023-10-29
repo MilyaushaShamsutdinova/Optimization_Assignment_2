@@ -2,8 +2,8 @@
 // Created by ilia on 17.09.23.
 //
 
-#ifndef OPTIMIZATION_COURSE_ASSIGNMENT_1_MATRIX_HPP
-#define OPTIMIZATION_COURSE_ASSIGNMENT_1_MATRIX_HPP
+#ifndef OPTIMIZATION_ASSIGNMENT_2_MATRIX_HPP
+#define OPTIMIZATION_ASSIGNMENT_2_MATRIX_HPP
 
 #include <iostream>
 #include <iterator>
@@ -31,11 +31,27 @@ public:
 
     Matrix &operator=(const Matrix &other);
 
-    Vector operator*(Vector vector) const;
+    Vector operator*(Vector vector);
+
+    Matrix operator*(const Matrix& item) const;
+
+    Matrix& operator*=(const Matrix& item);
+
+    Matrix operator-(const Matrix& item) const;
+
+    Matrix& operator-=(const Matrix& item);
 
     [[nodiscard]] Vector getRow(int index) const;
 
     void setRow(int index, Vector &vector);
+
+    [[nodiscard]] Vector getCol(int index) const;
+
+    void setCol(int index, Vector &vector);
+
+    Matrix transpose();
+
+    Matrix inverse();
 
     //overloaded ostream operator
     friend std::ostream &operator<<(std::ostream &os, const Matrix &item) {
@@ -61,13 +77,6 @@ public:
         return input_stream;
     }
 
-
-    [[nodiscard]] Vector getCol(int index) const;
-
-    void setCol(int index, Vector &vector);
-
-    [[nodiscard]] Matrix transpose() const;
-
 private:
     int rows_;
     int columns_;
@@ -77,4 +86,4 @@ private:
 };
 
 
-#endif //OPTIMIZATION_COURSE_ASSIGNMENT_1_MATRIX_HPP
+#endif //OPTIMIZATION_ASSIGNMENT_2_MATRIX_HPP
