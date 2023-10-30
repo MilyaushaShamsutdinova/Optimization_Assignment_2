@@ -3,7 +3,7 @@
 #include <cmath>
 
 void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const Vector& c,
-                                         const Vector& trial_solution, float alpha, float accuracy) {
+                                         const Vector& trial_solution, double alpha, double accuracy) {
     bool is_feasible = check_data(A, b, c, alpha, accuracy);
 
     if (!is_feasible){
@@ -26,10 +26,11 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
     Matrix P;
     Matrix I(D.rows(), D.columns());
 
-    for (int i = 0; i < I.rows(); ++i) {
+    for (int i = 0; i < min(I.rows(),I.columns()); ++i) {
         I(i, i) = 1.000000f;
     }
 
+    Vector x_n1;
     int iter = 0;
     while (true) {
         ++iter;
@@ -54,7 +55,7 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
 
         c_p = P * c_tilda;
 
-        float v, m = 1.000000f;
+        double v, m = 1.000000f;
         for (int i = 0; i < c_p.size(); ++i) {
             if (c_p[i] < 0.000000f) {
                 m = min(m, c_p[i]);
@@ -67,30 +68,33 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
             break;
         }
 
-        c_p *= alpha / v;
-        x_tilda = x_unit + c_p;
+        //c_p *= alpha / v;
+        Vector c_p0 = c_p * (alpha / v);
+        x_tilda = x_unit + c_p0;
 
         x = D * x_tilda;
 
         cout << "Iteration: " << iter << " x= " << x << endl;
-
-        bool flag = false;
-        for (int i = 0; i < x.size(); ++i) {
-            if (x[i] < accuracy - accuracy) {
-                flag = true;
-                break;
-            }
+        if (iter == 1){
+            x_n1 = Vector(x);
+            continue;
         }
-        if (!flag) {
+        double dist = 0;
+        for (int i = 0; i < x.size(); ++i) {
+            dist += (x_n1[i]-x[i])*(x_n1[i]-x[i]);
+        }
+        cout<<"dist: "<< sqrt(dist) <<endl;
+        if (abs(sqrt(dist) - accuracy)<1E-5) {
             break;
         }
+        x_n1 = Vector(x);
     }
 
     cout << "The answer is:\n";
-    for (int i = 0; i < x.size(); ++i) {
+    for (int i = 0; i < x_n1.size(); ++i) {
         cout << "x" << i << " = " << x[i] << " ";
     }
-    float profit = 0.000000f;
+    double profit = 0.000000f;
 
     for (int i = 0; i < A.columns(); ++i) {
         profit += c[i] * x[i];
@@ -121,7 +125,7 @@ void InteriorPoint::initialize_algorithm_data(const Matrix &A, const Vector &B, 
 }
 
 
-bool InteriorPoint::check_data(const Matrix &A, const Vector &b,const Vector &c, float alpha, float accuracy){
+bool InteriorPoint::check_data(const Matrix &A, const Vector &b,const Vector &c, double alpha, double accuracy){
 
     for (int i = 0; i < b.size(); ++i) {
         if (isless(b[i], accuracy - accuracy)) {

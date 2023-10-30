@@ -25,9 +25,9 @@ public:
 
     [[nodiscard]] int columns() const;
 
-    float &operator()(int row, int column);
+    double &operator()(int row, int column);
 
-    float operator()(int row, int column) const;
+    double operator()(int row, int column) const;
 
     Matrix &operator=(const Matrix &other);
 
@@ -80,7 +80,7 @@ public:
 private:
     int rows_;
     int columns_;
-    vector<vector<float>> data_;
+    vector<vector<double>> data_;
 
     static void swap(Matrix &first, Matrix &second);
 };

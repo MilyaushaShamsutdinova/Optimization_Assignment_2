@@ -17,7 +17,7 @@ class Vector {
 public:
     Vector();
 
-    explicit Vector(int vector_size, float initial_value = 0.0000000000f);
+    explicit Vector(int vector_size, double initial_value = 0.0000000000f);
 
     Vector(const Vector &other);
 
@@ -25,21 +25,21 @@ public:
 
     [[nodiscard]] int size() const;
 
-    float &operator[](int index);
+    double &operator[](int index);
 
-    float operator[](int index) const;
+    double operator[](int index) const;
 
     Vector operator-(Vector &other) const;
 
     Vector &operator-=(Vector &other);
 
-    Vector operator*(float scalar) const;
+    Vector operator*(double scalar) const;
 
-    Vector &operator*=(float scalar);
+    Vector &operator*=(double scalar);
 
-    Vector operator/(float scalar) const;
+    Vector operator/(double scalar) const;
 
-    Vector &operator/=(float scalar);
+    Vector &operator/=(double scalar);
 
     Vector &operator=(Vector other);
 
@@ -68,7 +68,7 @@ public:
     }
 
 private:
-    vector<float> vector_;
+    vector<double> vector_;
 
     // resize function since the standard arrays used for storing data
     void resize();

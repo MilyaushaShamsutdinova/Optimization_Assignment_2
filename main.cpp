@@ -12,7 +12,7 @@ void perform() {
 
     Vector b(m), c(n), trial_solution(m+n);
     Matrix A(m,n);
-    float alpha, accuracy;
+    double alpha, accuracy;
 
     cout << "Enter coefficients of the objective function:\n";
     cin >> c;
@@ -27,7 +27,6 @@ void perform() {
     cout << "Enter the value of accuracy needed in calculations:\n";
     cin >> accuracy;
 
-    // run the interior point algorithm
     InteriorPoint::start_interior_point(A, b, c, trial_solution, alpha, accuracy);
 
 }

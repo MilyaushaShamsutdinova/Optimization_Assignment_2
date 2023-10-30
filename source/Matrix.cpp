@@ -9,7 +9,7 @@ using namespace std;
 Matrix::Matrix() {
     rows_ = 0;
     columns_ = 0;
-    data_ = vector<vector<float>>();
+    data_ = vector<vector<double>>();
 }
 
 
@@ -17,7 +17,7 @@ Matrix::Matrix(int rows, int columns) {
     rows_ = rows;
     columns_ = columns;
 
-    data_ = vector<vector<float>>(rows, vector<float>(columns, 0.00000000000f));
+    data_ = vector<vector<double>>(rows, vector<double>(columns, 0.00000000000f));
 }
 
 
@@ -25,7 +25,7 @@ Matrix::Matrix(const Matrix &other) {
     rows_ = other.rows_;
     columns_ = other.columns_;
 
-    data_ = vector<vector<float>>(rows_, vector<float>(columns_, 0.00000000000f));
+    data_ = vector<vector<double>>(rows_, vector<double>(columns_, 0.00000000000f));
 
     for (int i = 0; i < rows_; i++) {
         for (int j = 0; j < columns_; j++) {
@@ -37,7 +37,7 @@ Matrix::Matrix(const Matrix &other) {
 Matrix::~Matrix() {
     rows_ = 0;
     columns_ = 0;
-    data_ = vector<vector<float>>(0);
+    data_ = vector<vector<double>>(0);
 }
 
 [[nodiscard]] int Matrix::rows() const {
@@ -48,14 +48,14 @@ Matrix::~Matrix() {
     return columns_;
 }
 
-float &Matrix::operator()(int row, int column) {
+double &Matrix::operator()(int row, int column) {
     if (row < 0 || row >= rows_ || column < 0 || column >= columns_) {
         throw out_of_range("Index out of range. Matrix &operator()");
     }
     return data_[row][column];
 }
 
-float Matrix::operator()(int row, int column) const {
+double Matrix::operator()(int row, int column) const {
     if (row < 0 || row >= rows_ || column < 0 || column >= columns_) {
         throw out_of_range("Index out of range. Matrix &operator()");
     }
@@ -88,7 +88,7 @@ Vector Matrix::operator*(Vector vector) {
     Vector result(rows_);
 
     for (int i = 0; i < rows_; ++i) {
-        float sum = 0.0;
+        double sum = 0.0;
         for (int j = 0; j < columns_; ++j) {
             sum += data_[i][j] * vector[j];
         }
@@ -224,7 +224,7 @@ Matrix Matrix::inverse() {
     }
 
     for (int i = 0; i < rows_; i++) {
-        float tmp = tmp_matrix(i, i);
+        double tmp = tmp_matrix(i, i);
         for (int j = 0; j < columns_*2; j++) {
             tmp_matrix(i, j) /= tmp;
         }
