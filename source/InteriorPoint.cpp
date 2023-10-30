@@ -54,10 +54,12 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
 
         c_p = P * c_tilda;
 
-        float v, m;
+        float v, m = 1.000000f;
         for (int i = 0; i < c_p.size(); ++i) {
-            m = min(c_p[0], c_p[i]);
-            v = abs(m);
+            if (c_p[i] < 0.000000f) {
+                m = min(m, c_p[i]);
+                v = abs(m);
+            }
         }
 
         if (m > 0.000000f) {
