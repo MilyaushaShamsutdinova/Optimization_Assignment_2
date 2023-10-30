@@ -15,9 +15,11 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
     Vector func_coefficients;
     Matrix D;
 
-    initialize_algorithm_data(A, b, c, main_matrix, func_coefficients, D, trial_solution);
+    initialize_algorithm_data(A, b, c, main_matrix, func_coefficients);
 
-    Vector x(func_coefficients.size(), accuracy);
+    D = Matrix(main_matrix.columns(), main_matrix.columns());
+
+    Vector x = trial_solution;
 
     Matrix A_tilda;
     Vector c_tilda, c_p, x_tilda, x_iter, x_unit(func_coefficients.size(), 1.000000f);
@@ -31,13 +33,11 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
     int iter = 0;
     while (true) {
         ++iter;
-        if (iter != 1) {
-            for (int i = 0; i < D.rows(); ++i) {
-                for (int j = 0; j < D.columns(); ++j) {
-                    D(i, j) = 0.000000f;
-                }
-                D(i, i) = x[i];
+        for (int i = 0; i < D.rows(); ++i) {
+            for (int j = 0; j < D.columns(); ++j) {
+                D(i, j) = 0.000000f;
             }
+            D(i, i) = x[i];
         }
 
         A_tilda = main_matrix * D;
@@ -99,11 +99,10 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
 }
 
 void InteriorPoint::initialize_algorithm_data(const Matrix &A, const Vector &B, const Vector &C, Matrix &main_matrix,
-                                              Vector &func_coefficients, Matrix &D, const Vector &trivial_solution) {
+                                              Vector &func_coefficients) {
 
 
     main_matrix = Matrix(A.rows(), A.columns() + B.size());
-    D = Matrix(main_matrix.columns(), main_matrix.columns());
 
     for (int i = 0; i < A.rows(); ++i) {
         for (int j = 0; j < A.columns(); ++j) {
@@ -117,13 +116,6 @@ void InteriorPoint::initialize_algorithm_data(const Matrix &A, const Vector &B, 
         func_coefficients[i] = C[i];
     }
 
-    for (int i = 0; i < A.rows(); ++i) {
-        D(i, i) = 1.000000f;
-    }
-
-    for (int i  = A.rows(); i < D.rows(); ++i) {
-        D(i, i) = trivial_solution[i - A.rows()];
-    }
 }
 
 
