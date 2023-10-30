@@ -110,6 +110,8 @@ Matrix& Matrix::operator*=(const Matrix& item) {
             }
         }
         swap(tmp_matrix_, *this);
+    } else {
+        cout << "Operation * of wrong dimensions for matrix multiplication" << endl;
     }
     return *this;
 }
@@ -129,6 +131,8 @@ Matrix& Matrix::operator-=(const Matrix& item) {
             }
         }
         swap(tmp_matrix_, *this);
+    } else {
+        cout << "Operation - of wrong dimensions for matrix subtraction" << endl;
     }
     return *this;
 }

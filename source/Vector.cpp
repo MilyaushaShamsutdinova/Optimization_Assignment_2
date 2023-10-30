@@ -60,6 +60,8 @@ Vector &Vector::operator-=(Vector &other) {
         for (int i = 0; i < other.size(); i++) {
             vector_[i] -= other[i];
         }
+    } else {
+        cout << "Vectors must be of the same size." << endl;
     }
     return *this;
 }
