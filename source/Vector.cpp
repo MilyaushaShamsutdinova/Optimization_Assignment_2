@@ -57,9 +57,11 @@ Vector Vector::operator-(Vector &other) const {
 
 Vector &Vector::operator-=(Vector &other) {
     if (other.size() == vector_.size()) {
+        Vector tmp(vector_.size());
         for (int i = 0; i < other.size(); i++) {
-            vector_[i] -= other[i];
+            tmp[i] -= vector_[i] - other[i];
         }
+        swap(tmp, *this);
     } else {
         cout << "Vectors must be of the same size." << endl;
     }
