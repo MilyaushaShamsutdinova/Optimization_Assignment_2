@@ -10,7 +10,7 @@ void perform() {
     int n, m;
     cin >> n >> m;
 
-    Vector b(m), c(n), trial_solution(n);
+    Vector b(m), c(n), trial_solution(m+n);
     Matrix A(m,n);
     float alpha, accuracy;
 
