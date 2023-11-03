@@ -21,7 +21,7 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
     Vector x = trial_solution;
 
     Matrix A_tilda;
-    Vector c_tilda, c_p, x_tilda, x_iter, x_unit(func_coefficients.size(), 1.000000f);
+    Vector c_tilda, c_p, x_tilda, x_unit(func_coefficients.size(), 1.000000f);
     Matrix P;
     Matrix I(D.rows(), D.columns());
 
@@ -29,7 +29,7 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
         I(i, i) = 1.000000f;
     }
 
-    Vector x_n1;
+    Vector x_last;
     int iter = 0;
     while (true) {
         ++iter;
@@ -63,43 +63,44 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
         }
 
         if (m > 0.000000f) {
-            cout << "In iteration " << iter << " no negative values V\n";
+            //cout << "In iteration " << iter << " no negative values V\n";
             break;
         }
 
-        //c_p *= alpha / v;
-        Vector c_p0 = c_p * (alpha / v);
-        x_tilda = x_unit + c_p0;
+        Vector tmp = c_p * (alpha / v);
+        x_tilda = x_unit + tmp;
 
         x = D * x_tilda;
 
-        cout << "Iteration: " << iter << " x= " << x << endl;
+        //cout << "Iteration: " << iter << " x= " << x << endl;
         if (iter == 1){
-            x_n1 = Vector(x);
+            x_last = Vector(x);
             continue;
         }
         double dist = 0;
         for (int i = 0; i < x.size(); ++i) {
-            dist += (x_n1[i]-x[i])*(x_n1[i]-x[i]);
+            dist += (x_last[i] - x[i]) * (x_last[i] - x[i]);
         }
-        cout<<"dist: "<< sqrt(dist) <<endl;
-        if (abs(sqrt(dist) - accuracy)<1E-5) {
+        //cout<<"dist: "<< sqrt(dist) <<endl;
+        if (abs(sqrt(dist) - accuracy) < accuracy) {
             break;
         }
-        x_n1 = Vector(x);
+
+        x_last = Vector(x);
         double profit = 0.000000f;
 
         for (int i = 0; i < A.columns(); ++i) {
             profit += c[i] * x[i];
         }
 
-        cout << "__Profit of these x values: " << profit << endl;
+        //cout << "__Profit of these x values: " << profit << endl;
 
     }
 
-    cout << "The answer is:\n";
-    for (int i = 0; i < x_n1.size(); ++i) {
-        cout << "x" << i << " = " << x[i] << " ";
+    cout << iter << " iterations for alpha=" << alpha << "\n";
+    cout << "Answer:\n";
+    for (int i = 0; i < c.size(); ++i) {
+        cout << "x_" << i+1 << " = " << x[i] << "\n";
     }
     double profit = 0.000000f;
 
@@ -107,7 +108,7 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
         profit += c[i] * x[i];
     }
 
-    cout << "\n\nProfit of these x values: " << profit << endl;
+    cout << "Profit = " << profit << endl;
 
 }
 

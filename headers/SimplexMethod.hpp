@@ -49,7 +49,7 @@ private:
 
     static Matrix rounding(double epsilon, Matrix &variable);
 
-    static bool check_feasibility(const Matrix &A, const Vector &B, const Vector &C, double epsilon);
+    static bool check_data(const Matrix &A, const Vector &B, const Vector &C, double epsilon);
 
     static Vector form_x_vector(Vector &x, Vector &basis_el, Matrix &main_matrix);
 };

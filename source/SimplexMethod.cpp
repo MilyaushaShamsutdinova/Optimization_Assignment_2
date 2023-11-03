@@ -114,10 +114,10 @@ Vector SimplexMethod::form_x_vector(Vector &x, Vector &basis_el, Matrix &main_ma
 
 void SimplexMethod::start_simplex(const Matrix &A, const Vector &B, const Vector &C, double accuracy) {
     accuracy = 0.01;
-    bool is_feasible = check_feasibility(A, B, C, accuracy);
+    bool lpp_is_solvable = check_data(A, B, C, accuracy);
 
-    if(is_feasible) {
-        is_feasible =  false;
+    if(lpp_is_solvable) {
+        lpp_is_solvable =  false;
 
         Matrix main_matrix;
         Vector func_coefficients;
@@ -144,12 +144,12 @@ void SimplexMethod::start_simplex(const Matrix &A, const Vector &B, const Vector
             //cout << "Iteration " << i+1 << ":";
             //cout << "\n:main_matrix:\n" << main_matrix << ":profit:\n" << profit << ":net_eval:\n" << net_eval << "\n\n";
             if (check_net_evaluation(net_eval)) {
-                is_feasible = true;
+                lpp_is_solvable = true;
                 break;
             }
         }
 
-        if (!is_feasible) cout << "The problem does not have solution!\n";
+        if (!lpp_is_solvable) cout << "The problem does not have solution!\n";
         else{
             cout << "Answer:\n";
             x = form_x_vector(x, basis_el, main_matrix);
@@ -212,7 +212,7 @@ Matrix SimplexMethod::rounding(double epsilon, Matrix &variable) {
 }
 
 
-bool SimplexMethod::check_feasibility(const Matrix &A, const Vector &B, const Vector &C, double epsilon) {
+bool SimplexMethod::check_data(const Matrix &A, const Vector &B, const Vector &C, double epsilon) {
 
     for (int i = 0; i < B.size(); ++i) {
         if (isless(B[i], epsilon - epsilon)) {
