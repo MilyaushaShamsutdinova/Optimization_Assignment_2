@@ -22,23 +22,23 @@ void perform() {
     cout << "Enter the right hand side of the constraints:\n";
     cin >> b;
     cout << "Enter the trial solution:\n";
-    //cin >> trial_solution;
+    cin >> trial_solution;
 //    cout << "Enter the value of alpha:\n";
 //    cin>> alpha;
     cout << "Enter the value of accuracy needed in calculations:\n";
     cin >> accuracy;
 
-//    cout << "\n\n------------------------------------------------";
-//    cout << "\n----- Interior Point Method with alpha=0.5 -----\n";
-//    cout << "------------------------------------------------\n\n";
-//    alpha = 0.5;
-//    InteriorPoint::start_interior_point(A, b, c, trial_solution, alpha, accuracy);
-//
-//    cout << "\n\n------------------------------------------------";
-//    cout << "\n----- Interior Point Method with alpha=0.9 -----\n";
-//    cout << "------------------------------------------------\n\n";
-//    alpha = 0.9;
-//    InteriorPoint::start_interior_point(A, b, c, trial_solution, alpha, accuracy);
+    cout << "\n\n------------------------------------------------";
+    cout << "\n----- Interior Point Method with alpha=0.5 -----\n";
+    cout << "------------------------------------------------\n\n";
+    alpha = 0.5;
+    InteriorPoint::start_interior_point(A, b, c, trial_solution, alpha, accuracy);
+
+    cout << "\n\n------------------------------------------------";
+    cout << "\n----- Interior Point Method with alpha=0.9 -----\n";
+    cout << "------------------------------------------------\n\n";
+    alpha = 0.9;
+    InteriorPoint::start_interior_point(A, b, c, trial_solution, alpha, accuracy);
 
     cout << "\n\n------------------------------------------------";
     cout << "\n---------------- Simplex Method ----------------\n";

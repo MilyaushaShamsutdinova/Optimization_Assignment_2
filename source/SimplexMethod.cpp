@@ -9,7 +9,7 @@
 #include <cfloat>
 
 int SimplexMethod::define_pivot_col(Vector &net_eval) {
-    double mx = DBL_MIN;
+    auto mx = DBL_MIN;
     int index = -1;
     for (int i = 0; i < net_eval.size(); ++i) {
         if (islessequal(mx, net_eval[i])) {
@@ -40,7 +40,7 @@ Vector SimplexMethod::calculate_ratio(Matrix &main_matrix, int &pivot_col, const
 }
 
 int SimplexMethod::define_pivot_row(Vector &ratio) {
-    double ans = DBL_MAX;
+    auto ans = DBL_MAX;
     int index = -1;
     for (int i = 0; i < ratio.size(); ++i) {
         if (signbit(ratio[i])) continue;
@@ -112,7 +112,8 @@ Vector SimplexMethod::form_x_vector(Vector &x, Vector &basis_el, Matrix &main_ma
     return x;
 }
 
-void SimplexMethod::start_simplex(const Matrix &A, const Vector &B, const Vector &C, const double accuracy) {
+void SimplexMethod::start_simplex(const Matrix &A, const Vector &B, const Vector &C, double accuracy) {
+    accuracy = 0.01;
     bool is_feasible = check_feasibility(A, B, C, accuracy);
 
     if(is_feasible) {
@@ -184,13 +185,13 @@ void SimplexMethod::initialize_algorithm_data(const Matrix &A, const Vector &B, 
         main_matrix(i, main_matrix.columns() - 1) = B[i];
     }
 
-//    cout << "Initial data:\n" << main_matrix << ":coefficients:\n" << func_coefficients << ":net_eval:\n"
-//         << net_eval << "\n";
+    //cout << "Initial data:\n" << main_matrix << ":coefficients:\n" << func_coefficients << ":net_eval:\n"
+    //     << net_eval << "\n";
 }
 
 // rounds the numbers using given epsilon, should work with small epsilon
 double SimplexMethod::rounding(double epsilon, double variable) {
-    double roundedValue = roundf(variable / epsilon) * epsilon;
+    double roundedValue = (variable / epsilon) * epsilon;
     return roundedValue;
 }
 

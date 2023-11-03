@@ -4,6 +4,12 @@
 
 #include "../headers/Vector.hpp"
 
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
 Vector::Vector() {
     vector_ = vector<double>();
 }
@@ -59,12 +65,16 @@ Vector &Vector::operator-=(Vector &other) {
     if (other.size() == vector_.size()) {
         Vector tmp(vector_.size());
         for (int i = 0; i < other.size(); i++) {
-            tmp[i] -= vector_[i] - other[i];
+            tmp[i] = vector_[i] - other[i];
         }
         swap(tmp, *this);
     } else {
-        cout << "Vectors must be of the same size." << endl;
-        cout << other.size() << " " << vector_.size() << endl;
+        int size = min((long long)vector_.size(), (long long)other.size());
+        Vector tmp(size);
+        for (int i = 0; i < size; i++) {
+            tmp[i] = vector_[i] - other[i];
+        }
+        swap(tmp, *this);
     }
     return *this;
 }
@@ -133,7 +143,7 @@ Vector& Vector::operator+=(Vector& other) {
         swap(tmp, *this);
     } else {
         cout << "Vectors must be of the same size." << endl;
-        cout << other.size() << " " << vector_.size() << endl;
+        //cout << other.size() << " " << vector_.size() << endl;
     }
     return *this;
 }
