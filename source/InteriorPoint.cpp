@@ -4,10 +4,9 @@
 
 void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const Vector& c,
                                          const Vector& trial_solution, double alpha, double accuracy) {
-    bool is_feasible = check_data(A, b, c, alpha, accuracy);
+    bool lpp_is_solvable = check_data(A, b, c, alpha, accuracy);
 
-    if (!is_feasible){
-        cout << "There is no feasible solution!\n";
+    if (!lpp_is_solvable){
         return;
     }
 
@@ -114,8 +113,6 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
 
 void InteriorPoint::initialize_algorithm_data(const Matrix &A, const Vector &B, const Vector &C, Matrix &main_matrix,
                                               Vector &func_coefficients) {
-
-
     main_matrix = Matrix(A.rows(), A.columns() + B.size());
 
     for (int i = 0; i < A.rows(); ++i) {
@@ -135,11 +132,36 @@ void InteriorPoint::initialize_algorithm_data(const Matrix &A, const Vector &B, 
 
 bool InteriorPoint::check_data(const Matrix &A, const Vector &b,const Vector &c, double alpha, double accuracy){
 
+    if (alpha > 1.0 || alpha < 0.0){
+        cout << "Incorrect input for alpha!\n";
+        return false;
+    }
+
     for (int i = 0; i < b.size(); ++i) {
         if (isless(b[i], accuracy - accuracy)) {
-            cout << "There is no feasible solution!";
+            cout << "The problem does not have solution!\n";
             return false;
         }
     }
+
+    //Check for sparse constraint matrix
+    int nonZeroCount = 0;
+    double threshold = 0.6;
+    int totalElements = A.rows() * A.columns();
+
+    for (int i = 0; i < A.rows(); ++i) {
+        for (int j = 0; j < A.columns(); ++j) {
+            if (A(i, j) != 0.0) {
+                nonZeroCount++;
+            }
+        }
+    }
+    double sparsityRatio = static_cast<double>(nonZeroCount) / totalElements;
+
+    if (sparsityRatio < threshold){
+        cout << "The Interior-Point Method is not applicable!\n";
+        return false;
+    }
+
     return true;
 }

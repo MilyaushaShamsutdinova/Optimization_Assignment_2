@@ -149,7 +149,7 @@ void SimplexMethod::start_simplex(const Matrix &A, const Vector &B, const Vector
             }
         }
 
-        if (!is_feasible) cout << "There is no feasible solution!\n";
+        if (!is_feasible) cout << "The problem does not have solution!\n";
         else{
             cout << "Answer:\n";
             x = form_x_vector(x, basis_el, main_matrix);
@@ -161,8 +161,6 @@ void SimplexMethod::start_simplex(const Matrix &A, const Vector &B, const Vector
     }
 }
 
-// parser of initial vectors
-// Assumptions that Matrix A contains coefficients of the slack\artificial variables
 void SimplexMethod::initialize_algorithm_data(const Matrix &A, const Vector &B, const Vector &C, Matrix &main_matrix,
                                               Vector &func_coefficients, Vector &net_eval) {
 
@@ -215,11 +213,13 @@ Matrix SimplexMethod::rounding(double epsilon, Matrix &variable) {
 
 
 bool SimplexMethod::check_feasibility(const Matrix &A, const Vector &B, const Vector &C, double epsilon) {
+
     for (int i = 0; i < B.size(); ++i) {
         if (isless(B[i], epsilon - epsilon)) {
-            cout << "There is no feasible solution!";
+            cout << "The problem does not have solution!\n";
             return false;
         }
     }
+
     return true;
 }
