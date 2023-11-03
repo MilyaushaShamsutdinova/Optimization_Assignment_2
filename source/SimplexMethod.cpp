@@ -221,5 +221,10 @@ bool SimplexMethod::check_feasibility(const Matrix &A, const Vector &B, const Ve
         }
     }
 
+    if (A.rows() > 10 || A.columns() > 10){
+        cout << "The Simplex Method is not applicable!\n";
+        return false;
+    }
+
     return true;
 }
