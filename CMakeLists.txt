@@ -9,6 +9,8 @@ add_executable(Optimization_Assignment_2 main.cpp
         headers/Matrix.hpp
         headers/Vector.hpp
         headers/InteriorPoint.hpp
+        headers/SimplexMethod.hpp
         source/Matrix.cpp
         source/Vector.cpp
-        source/InteriorPoint.cpp)
+        source/InteriorPoint.cpp
+        source/SimplexMethod.cpp)

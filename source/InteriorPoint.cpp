@@ -88,6 +88,14 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
             break;
         }
         x_n1 = Vector(x);
+        double profit = 0.000000f;
+
+        for (int i = 0; i < A.columns(); ++i) {
+            profit += c[i] * x[i];
+        }
+
+        cout << "__Profit of these x values: " << profit << endl;
+
     }
 
     cout << "The answer is:\n";

@@ -64,6 +64,7 @@ Vector &Vector::operator-=(Vector &other) {
         swap(tmp, *this);
     } else {
         cout << "Vectors must be of the same size." << endl;
+        cout << other.size() << " " << vector_.size() << endl;
     }
     return *this;
 }
@@ -132,6 +133,7 @@ Vector& Vector::operator+=(Vector& other) {
         swap(tmp, *this);
     } else {
         cout << "Vectors must be of the same size." << endl;
+        cout << other.size() << " " << vector_.size() << endl;
     }
     return *this;
 }
