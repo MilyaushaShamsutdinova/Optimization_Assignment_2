@@ -1,10 +1,5 @@
-//
-// Created by ilia on 17.09.23.
-//
-
 #include "../headers/SimplexMethod.hpp"
 
-// to check signs of numbers (since floating point numbers could work badly with <= or ==)
 #include <cmath>
 #include <cfloat>
 
@@ -141,8 +136,6 @@ void SimplexMethod::start_simplex(const Matrix &A, const Vector &B, const Vector
             profit = calculate_profit(main_matrix, basis, accuracy);
             net_eval = calculate_net_evaluation(func_coefficients, profit, accuracy);
 
-            //cout << "Iteration " << i+1 << ":";
-            //cout << "\n:main_matrix:\n" << main_matrix << ":profit:\n" << profit << ":net_eval:\n" << net_eval << "\n\n";
             if (check_net_evaluation(net_eval)) {
                 lpp_is_solvable = true;
                 break;
@@ -182,12 +175,8 @@ void SimplexMethod::initialize_algorithm_data(const Matrix &A, const Vector &B, 
     for (int i = 0; i < B.size(); ++i) {
         main_matrix(i, main_matrix.columns() - 1) = B[i];
     }
-
-    //cout << "Initial data:\n" << main_matrix << ":coefficients:\n" << func_coefficients << ":net_eval:\n"
-    //     << net_eval << "\n";
 }
 
-// rounds the numbers using given epsilon, should work with small epsilon
 double SimplexMethod::rounding(double epsilon, double variable) {
     double roundedValue = (variable / epsilon) * epsilon;
     return roundedValue;
@@ -213,7 +202,6 @@ Matrix SimplexMethod::rounding(double epsilon, Matrix &variable) {
 
 
 bool SimplexMethod::check_data(const Matrix &A, const Vector &B, const Vector &C, double epsilon) {
-
     for (int i = 0; i < B.size(); ++i) {
         if (isless(B[i], epsilon - epsilon)) {
             cout << "The problem does not have solution!\n";

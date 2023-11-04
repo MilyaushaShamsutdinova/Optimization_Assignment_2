@@ -63,7 +63,6 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
         }
 
         if (m > 0.000000f) {
-            //cout << "In iteration " << iter << " no negative values V\n";
             break;
         }
 
@@ -72,16 +71,15 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
 
         x = D * x_tilda;
 
-        //cout << "Iteration: " << iter << " x= " << x << endl;
         if (iter == 1){
             x_last = Vector(x);
             continue;
         }
+
         double dist = 0;
         for (int i = 0; i < x.size(); ++i) {
             dist += (x_last[i] - x[i]) * (x_last[i] - x[i]);
         }
-        //cout<<"dist: "<< sqrt(dist) <<endl;
         if (abs(sqrt(dist) - accuracy) < accuracy) {
             break;
         }
@@ -92,9 +90,6 @@ void InteriorPoint::start_interior_point(const Matrix& A, const Vector& b, const
         for (int i = 0; i < A.columns(); ++i) {
             profit += c[i] * x[i];
         }
-
-        //cout << "__Profit of these x values: " << profit << endl;
-
     }
 
     cout << iter << " iterations for alpha=" << alpha << "\n";
