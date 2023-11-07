@@ -9,7 +9,11 @@ using namespace std;
 
 void perform() {
     int n, m;
-    cin >> n >> m;
+
+    cout << "Enter number of basic variables:\n";
+    cin >> n;
+    cout << "Enter number of constraint functions:\n";
+    cin >> m;
 
     Vector b(m), c(n), trial_solution(m+n);
     Matrix A(m,n);
@@ -44,10 +48,14 @@ void perform() {
     cout << "\n---------------- Simplex Method ----------------\n";
     cout << "------------------------------------------------\n\n";
     SimplexMethod::start_simplex(A, b, c, accuracy);
-
 }
 
 int main() {
     perform();
+
+//    cout << "\n\n\nPress Enter to close the window...";
+//    cin.get();
+    system("pause");
+
     return EXIT_SUCCESS;
 }

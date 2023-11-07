@@ -1,0 +1,3 @@
+M:/Innopolis_Study/II Semester/C++_Projects/Optimization_Assignment_2/cmake-build-debug/CMakeFiles/Optimization_Assignment_2.dir
+M:/Innopolis_Study/II Semester/C++_Projects/Optimization_Assignment_2/cmake-build-debug/CMakeFiles/edit_cache.dir
+M:/Innopolis_Study/II Semester/C++_Projects/Optimization_Assignment_2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

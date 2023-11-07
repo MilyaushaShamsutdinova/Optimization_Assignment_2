@@ -1,0 +1,8 @@
+# ninja log v5
+22	1800	7208202502881110	CMakeFiles/Optimization_Assignment_2.dir/source/Vector.cpp.obj	ecaec348d5cf8899
+4	425	7210793202396583	CMakeFiles/Optimization_Assignment_2.dir/main.cpp.obj	499bafa5bf1dcb2c
+1	983	7207197723984188	CMakeFiles/Optimization_Assignment_2.dir/source/Matrix.cpp.obj	c2351061c736937b
+35	1805	7208202502931146	CMakeFiles/Optimization_Assignment_2.dir/source/InteriorPoint.cpp.obj	673229ef1c1f8d4
+425	922	7210793207275560	Optimization_Assignment_2.exe	4a0b743a07804744
+5	521	7210793550633690	build.ninja	fb7022e1395f43a4
+4	1771	7208202502305811	CMakeFiles/Optimization_Assignment_2.dir/source/SimplexMethod.cpp.obj	4f5808527f9e8cfe
